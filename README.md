@@ -3,7 +3,7 @@
 **Code for:**
 
 ```
-Gong, Weikang, et al. "Identifying associations in dense connectomes using structured kernel principal component regression." bioRxiv (2018): 242982.
+Weikang Gong. et al, A powerful and efficient multivariate approach for voxel-level connectome-wide association studies, NeuroImage (2018)
 ```
 
 **Coming soon!**
