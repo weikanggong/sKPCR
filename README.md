@@ -45,5 +45,5 @@ Author: Weikang Gong (FMRIB Analysis group, NDCN, WIN, University of Oxford)
 Email: weikang.gong@ndcn.ox.ac.uk; weikanggong@gmail.com
 
 
-
+You may also find BWAS useful: https://github.com/weikanggong/BWAS.
 
