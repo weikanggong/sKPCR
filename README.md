@@ -12,7 +12,7 @@ This is the first development version of sKPCR, bug report is wellcome!
 1. System: Linux/Mac/Windows;
 2. Python 2.7 or 3.6 (Anaconda is recommended);
 3. Python modules: copy, glob, numpy, scipy, matplotlib, nilearn, nibabel, joblib, multiprocessing, PyPDF2;
-
+4. Your CPU memory should be enough to put all your rfMRI data into it.
 
 ## **Data structure and required files:**
 1. Toolbox directory: The absolute directory of the sKPCR code;
@@ -28,7 +28,7 @@ This is the first development version of sKPCR, bug report is wellcome!
 ## **How to use this package:**
 1. All the source code is in the file: sKPCR_cpu.py
 2. To run it in command line, please use the file: sKCPR_main.py; You can type: **python sKCPR_main.py -h** to see the help;
-3. To run it in GUI, please use the file: sKPCR_gui.py; You can type: **python sKCPR_gui.py** to open the gui, the input should be the same as sKCPR_main.py. After enter all the things, press "run sKPCR interactively" or "run sKPCR in background" to perform the analysis.
+3. To run it in GUI, please use the file: sKPCR_gui.py; You can type: **python sKCPR_gui.py** to open the gui, the input should be the same as sKCPR_main.py. After enter all the things, press "run sKPCR interactively" or "run sKPCR in background" to perform the analysis (Do not forget to press the save button after you enter Number of components, Number of permutations and Number of cores).
 
 
 ## **Outputs:**
