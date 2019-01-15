@@ -39,7 +39,7 @@ In the Output directory,
 
 **Question or report bug:**
 
-Author: Weikang Gong
+Author: Weikang Gong (FMRIB Analysis group, NDCN, WIN, University of Oxford)
 
 Email: weikang.gong@ndcn.ox.ac.uk; weikanggong@gmail.com
 
