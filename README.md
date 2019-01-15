@@ -1,6 +1,6 @@
 # sKPCR: A powerful and efficient multivariate approach for voxel-level connectome-wide association studies
 
-**Python Code for:**
+## **Python Code for:**
 
 ```
 Weikang Gong. et al, A powerful and efficient multivariate approach for voxel-level connectome-wide association studies, NeuroImage (2018)
@@ -8,13 +8,13 @@ Weikang Gong. et al, A powerful and efficient multivariate approach for voxel-le
 
 This is the first development version of sKPCR, bug report is wellcome!
 
-**Requirement:**
+## **Requirement:**
 1. System: Linux/Mac/Windows;
 2. Python 2.7 or 3.6 (Anaconda is recommended);
 3. Python modules: copy, glob, numpy, scipy, matplotlib, nilearn, nibabel, joblib, multiprocessing, PyPDF2;
 
 
-**Data structure and required files:**
+## **Data structure and required files:**
 1. Toolbox directory: The absolute directory of the sKPCR code;
 2. fMRI data: Please put all your rfMRI data in a directory. The software will read data in alphabet order.
 3. variable of interest file: One column. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and column representing a variable.
@@ -25,20 +25,20 @@ This is the first development version of sKPCR, bug report is wellcome!
 8. Number of cores: usually the more the faster;
 9. Output directory: the absolute directory to save all the outputs.
 
-**How to use this package:**
+## **How to use this package:**
 1. All the source code is in the file: sKPCR_cpu.py
 2. To run it in command line, please use the file: sKCPR_main.py; You can type: **python sKCPR_main.py -h** to see the help;
 3. To run it in GUI, please use the file: sKPCR_gui.py; You can type: **python sKCPR_gui.py** to open the gui, the input should be the same as sKCPR_main.py. After enter all the things, press "run sKPCR interactively" or "run sKPCR in background" to perform the analysis.
 
 
-**Output:**
+## **Outputs:**
 
 In the Output directory, 
 1. sKPCR_Pval_map.nii.gz: the voxel-wise -log10(p-value) of the association statistic.
 2. sKPCR_Pval_map_FDR0.05.nii.gz: the voxel-wise -log10(p-value) of the association statistic that pass the FDR corrected 0.05 threshold.
 3. sKPCR_Pval_map_FDR0.01.nii.gz: the voxel-wise -log10(p-value) of the association statistic that pass the FDR corrected 0.01 threshold.
 
-**Question or report bug:**
+## **Question or report bug:**
 
 Author: Weikang Gong (FMRIB Analysis group, NDCN, WIN, University of Oxford)
 
