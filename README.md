@@ -1,4 +1,4 @@
-# sKPCR: A powerful and efficient multivariate approach for voxel-level connectome-wide association studies
+# sKPCR: A powerful and efficient multivariate approach for voxel-level connectome-wide association studies (v0.1-beta)
 
 ## **Python Code for:**
 
