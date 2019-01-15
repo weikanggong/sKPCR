@@ -1,17 +1,17 @@
-# sKPCR
+# sKPCR: A powerful and efficient multivariate approach for voxel-level connectome-wide association studies
 
-**Code for:**
+**Python Code for:**
 
 ```
 Weikang Gong. et al, A powerful and efficient multivariate approach for voxel-level connectome-wide association studies, NeuroImage (2018)
 ```
-**Requirement**
+**Requirement:**
 1. System: Linux/Mac/Win;
 2. Python 2.7 or 3.6 (Anaconda is recommended);
 3. Python modules: copy, glob, numpy, scipy, matplotlib, nilearn, nibabel, joblib, multiprocessing, PyPDF2;
 
 
-**Data structure and required files**
+**Data structure and required files:**
 1. fMRI data: Please put all your rfMRI data in a directory. The software will read data in alphabet order.
 2. variable of interest file: One column. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and column representing a variable.
 3. covariates file: Multiple columns. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and each column representing a variable.
