@@ -9,9 +9,9 @@ Weikang Gong. et al, A powerful and efficient multivariate approach for voxel-le
 This is the first development version of sKPCR, bug report is wellcome!
 
 ## **Requirement:**
-1. System: Linux/Mac/Windows;
-2. Python 2.7 or 3.6 (Anaconda is recommended);
-3. Python modules: copy, glob, numpy, scipy, matplotlib, nilearn, nibabel, joblib, multiprocessing, PyPDF2;
+1. System: Linux/Mac/Windows.
+2. Python 2.7 or 3.6 (Anaconda is recommended).
+3. Python modules: copy, glob, numpy, scipy, matplotlib, nilearn, nibabel, joblib, multiprocessing, PyPDF2.
 4. Your CPU memory should be enough to put all your rfMRI data into it.
 
 ## **Data structure and required files:**
