@@ -34,9 +34,9 @@ This is the first development version of sKPCR, bug report is wellcome!
 ## **Outputs:**
 
 In the Output directory, 
-1. sKPCR_Pval_map.nii.gz: the voxel-wise -log10(p-value) of the association statistic.
-2. sKPCR_Pval_map_FDR0.05.nii.gz: the voxel-wise -log10(p-value) of the association statistic that pass the FDR corrected 0.05 threshold.
-3. sKPCR_Pval_map_FDR0.01.nii.gz: the voxel-wise -log10(p-value) of the association statistic that pass the FDR corrected 0.01 threshold.
+1. sKPCR_Pval_map.nii.gz: the voxel-wise -log10(raw p-value) of the association statistic.
+2. sKPCR_Pval_map_FDR0.05.nii.gz: the voxel-wise -log10(raw p-value) of the association statistic that pass the FDR corrected 0.05 threshold.
+3. sKPCR_Pval_map_FDR0.01.nii.gz: the voxel-wise -log10(raw p-value) of the association statistic that pass the FDR corrected 0.01 threshold.
 
 ## **Question or report bug:**
 
