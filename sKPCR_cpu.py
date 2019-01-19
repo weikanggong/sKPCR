@@ -566,6 +566,9 @@ def sKPCR_run_full_analysis(result_dir,image_dir,mask_file,toolbox_path,targets_
     #get image file names
     #sort them
     img_file_names=sorted(glob.glob(image_dir+'*.nii.gz'))
+    if len(img_file_names):
+        img_file_names=sorted(glob.glob(image_dir+'*.nii'))
+        
     image_names=[]
     for i in range(0,len(img_file_names)):
         tmp=[]
