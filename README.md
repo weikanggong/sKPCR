@@ -15,15 +15,15 @@ This is the first development version of sKPCR, bug report is wellcome!
 4. Your CPU memory should be enough to put all your rfMRI data into it.
 
 ## **Data structure and required files:**
-1. Toolbox directory: The absolute directory of the sKPCR code;
-2. fMRI data: Please put all your rfMRI data in a directory. The software will read data in alphabet order.
-3. variable of interest file: One column. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and column representing a variable. Note: we only support binary and continuous phenotypes, e.g. for case-control study, the labels of two groups are 0 and 1.
-4. covariates file: Multiple columns. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and each column representing a variable. Note: you can only include binary and continuous variables here, categorical variable should be transformed to dummy variables (multiple columns of 0 and 1).
-5. mask_file: a binary mask (.nii.gz or .nii format) of your fMRI data;
-6. Number of components to use: must be < your sample size (usually <100 is OK);
-7. Number of permutations: > 1000 is recommended;
-8. Number of cores: usually the more the faster;
-9. Output directory: the absolute directory to save all the outputs.
+1. **Toolbox directory:** The absolute directory of the sKPCR code;
+2. **fMRI data:** Please put all your rfMRI data in a directory. The software will read data in alphabet order.
+3. **Variable of interest file:** One column. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and column representing a variable. Note: we only support binary and continuous phenotypes, e.g. for case-control study, the labels of two groups are 0 and 1.
+4. **covariates file:** Multiple columns. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and each column representing a variable. Note: you can only include binary and continuous variables here, categorical variable should be transformed to dummy variables (multiple columns of 0 and 1).
+5. **mask_file:** a binary mask (.nii.gz or .nii format) of your fMRI data;
+6. **Number of components:** must be < your sample size (usually <100 is OK);
+7. **Number of permutations:** > 1000 is recommended;
+8. **Number of cores:** usually the more the faster;
+9. **Output directory:** the absolute directory to save all the outputs.
 
 ## **How to use this package:**
 1. All the source code is in the file: sKPCR_cpu.py
