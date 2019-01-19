@@ -17,7 +17,7 @@ This is the first development version of sKPCR, bug report is wellcome!
 ## **Data structure and required files:**
 1. Toolbox directory: The absolute directory of the sKPCR code;
 2. fMRI data: Please put all your rfMRI data in a directory. The software will read data in alphabet order.
-3. variable of interest file: One column. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and column representing a variable.
+3. variable of interest file: One column. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and column representing a variable. Note: we only support binary and continuous phenotypes, e.g. for case-control study, the labels of two groups are 0 and 1.
 4. covariates file: Multiple columns. The file format should be either a ".txt" file or a ".npy" file, with each row representing a subject and each column representing a variable.
 5. mask_file: a binary mask (.nii.gz or .nii format) of your fMRI data;
 6. Number of components to use: must be < your sample size (usually <100 is OK);
