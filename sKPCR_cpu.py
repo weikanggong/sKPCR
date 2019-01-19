@@ -339,7 +339,7 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
     
     Tstat2=np.zeros((numperms,P),dtype='float32')
     for j in range(0,numperms):
-        design=np.hstack((np.array(yperms[:,j],ndmin=2).T,cov,np.ones((N,1))))
+        design=np.hstack((np.array(yperms[:,j],ndmin=2).T,cov))
         design=np.array(design,dtype='float32')
         Tstat2[j,:]=np.square(BWAS_regression(design,pcs)).flatten()
 
@@ -526,7 +526,7 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize=200,numpe
           
 
     thre_p=sKPCR_fdr_bh(pvs,0.05)        
-    pvs1=pvs
+    pvs1=pvs*1.0
     pvs1[pvs1>thre_p]=1
     
     pval_map1=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
@@ -538,7 +538,7 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize=200,numpe
 
 
     thre_p=sKPCR_fdr_bh(pvs,0.01)        
-    pvs2=pvs
+    pvs2=pvs*1.0
     pvs2[pvs2>thre_p]=1
           
     pval_map2=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
