@@ -577,8 +577,12 @@ def sKPCR_run_full_analysis(result_dir,image_dir,mask_file,toolbox_path,targets_
     
     if '.npy' in targets_file:
         targets=np.load(targets_file)
+        if len(targets.shape)==1:
+            targets=np.array(targets,ndmin=2).T
     elif '.txt' in targets_file:
         targets=np.loadtxt(targets_file)
+        if len(targets.shape)==1:
+            targets=np.array(targets,ndmin=2).T
     else:
         print('Wrong "targets" file type...')
     
@@ -586,9 +590,15 @@ def sKPCR_run_full_analysis(result_dir,image_dir,mask_file,toolbox_path,targets_
         covariates=np.ones((targets.shape[0],1))
     else:
         if '.npy' in targets_file:
-            covariates=np.hstack((np.load(cov_file),np.ones((targets.shape[0],1))))
+            covs_tmp=np.load(cov_file)
+            if len(covs_tmp.shape)==1:
+                covs_tmp=np.array(covs_tmp,ndmin=2).T
+            covariates=np.hstack((covs_tmp,np.ones((targets.shape[0],1))))
         elif '.txt' in targets_file:
-            covariates=np.hstack((np.loadtxt(cov_file),np.ones((targets.shape[0],1))))
+            covs_tmp=np.loadtxt(cov_file)
+            if len(covs_tmp.shape)==1:
+                covs_tmp=np.array(covs_tmp,ndmin=2).T            
+            covariates=np.hstack((covs_tmp,np.ones((targets.shape[0],1))))
         else:
             print('Wrong "covariates" file type...')   
             
@@ -603,7 +613,6 @@ def sKPCR_run_full_analysis(result_dir,image_dir,mask_file,toolbox_path,targets_
     print('Shape of the Mask = '+str(mask.shape))
 
     vol_batchsize=200
-    #numperms=1000
     
     #if the glm analysis is not finished yet, rerun all glm,
     #else only compute the stats
