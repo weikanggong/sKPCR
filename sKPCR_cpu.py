@@ -367,7 +367,7 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
     
     
 
-def sKPCA_analysis_full_data(image_names,mask,result_dir,vol_batchsize=200,K_components=100,ncore=1):
+def sKPCA_analysis_full_data(image_names,mask,result_dir,vol_batchsize,K_components,ncore):
     
     
 
@@ -464,7 +464,7 @@ def sKPCR_fdr_bh(pv,thre_p):
 
 
 
-def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize=200,numperms=1000,ncore=1):
+def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize,numperms,ncore):
     
     
     info=nib.load(mask_file)
@@ -556,7 +556,7 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize=200,numpe
     
     return
 
-def sKPCR_run_full_analysis(result_dir,image_dir,mask_file,toolbox_path,targets_file,cov_file,K_components=100,numperms=1000,ncore=1):
+def sKPCR_run_full_analysis(result_dir,image_dir,mask_file,toolbox_path,targets_file,cov_file,K_components,numperms,ncore):
     
     
     

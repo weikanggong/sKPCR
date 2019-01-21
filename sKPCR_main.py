@@ -45,10 +45,10 @@ def cli_parser():
     parser.add_argument('-output_dir', help='The absolute directory for the sKPCR outputs')
     parser.add_argument('-mask_file', help='The absolute directory of the mask file')
     parser.add_argument('-target_file', help='The absolute directory of the variable of interests (nsub * 1 numpy matrix saved in .npy or .txt format)')
-    parser.add_argument('-cov_file', help='The absolute directory of the variable of interests (nsub * p numpy matrix saved in .npy or .txt format)')
-    parser.add_argument('-K_components', help='The number of components for analysis.',default='20')
-    parser.add_argument('-nperm', help='The number of permutations',default='2000')
-    parser.add_argument('-ncore', help='Number of CPU to use for this analysis ',default='1')
+    parser.add_argument('-cov_file', help='The absolute directory of the covariates (nsub * p numpy matrix saved in .npy or .txt format)')
+    parser.add_argument('-K_components', help='The number of components for analysis.')
+    parser.add_argument('-nperm', help='The number of permutations')
+    parser.add_argument('-ncore', help='Number of CPU to use for this analysis ')
     
     return parser
 
