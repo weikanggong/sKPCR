@@ -48,7 +48,7 @@ In the Output directory,
 2. sKPCR_Pval_map_FDR0.05.nii.gz: the voxel-wise -log10(raw p-value) of the association statistic that pass the FDR corrected 0.05 threshold.
 3. sKPCR_Pval_map_FDR0.01.nii.gz: the voxel-wise -log10(raw p-value) of the association statistic that pass the FDR corrected 0.01 threshold.
 
-Tip: if you want to analyse another variable of interest using the same data, just copy the current result (.nii.gz files) to another place and replace the "Variable of interest file" with another one that has the same number of rows as the original one, and rerun the analysis using exactly the same setting. The software will automatically omit the step of estimating PCs which are only computed from the image data.
+Tip: if you want to analyse another variable of interest using the same data, just copy the current result (.nii.gz files) to another place and replace the old "Variable of interest file" a new variable of interest, and rerun the analysis using exactly the same setting. The software will automatically omit the step of estimating PCs which are only computed from the image data.
 
 ## **Question or report bug:**
 
