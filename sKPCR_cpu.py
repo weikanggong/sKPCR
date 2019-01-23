@@ -347,7 +347,7 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
         #test statistic (1+numperm)*1 vector
         T0s = np.sum(Tstat2[:,0:(j+1)],1)
         #pvalue
-        pPerm0[j]= np.mean(T0s[0]<=T0s[1:numperms])
+        pPerm0[j]= max(np.mean(T0s[0]<=T0s[1:numperms]),1/np.float32(numperms))
     
         #get ranks of 
         ranks=rankdata(T0s[1:numperms])
