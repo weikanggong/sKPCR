@@ -322,7 +322,6 @@ def BWAS_regression(X,Y):
     return Tstat
 
 
-
 def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
     N,P=pcs.shape
     #pheno the first one is targets
@@ -335,24 +334,33 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
             yperms[:,j] = pheno[np.random.permutation(N),0]
     else:
         yperms=pheno*1.0
-    
+        numperms=yperms.shape[1]
+        
     Tstat2=np.zeros((numperms,P),dtype='float32')
+    '''
+    for j in range(0,P):
+        design=np.hstack((np.array(pcs[:,j],ndmin=2).T,cov))
+        design=np.array(design,dtype='float32')
+        Tstat2[:,j]=np.square(BWAS_regression(design,yperms)).flatten()
+    '''
+    
     for j in range(0,numperms):
         design=np.hstack((np.array(yperms[:,j],ndmin=2).T,cov))
         design=np.array(design,dtype='float32')
         Tstat2[j,:]=np.square(BWAS_regression(design,pcs)).flatten()
-
+    
+    
     pPerm0=np.ones((P,1),dtype='float32')    
     for j in range(0,P):
         #test statistic (1+numperm)*1 vector
-        T0s = np.sum(Tstat2[:,0:(j+1)],1)
+        T0s = np.mean(Tstat2[:,0:(j+1)],1)
         #pvalue
-        pPerm0[j]= max(np.mean(T0s[0]<=T0s[1:numperms]),1/np.float32(numperms))
+        pPerm0[j]= np.mean(T0s[0]<=T0s[1:numperms])
     
         #get ranks of 
         ranks=rankdata(T0s[1:numperms])
         #get empirical p-value using rank
-        P0s = (numperms-ranks + 1 )/(np.float32(numperms))
+        P0s = (numperms-ranks)/(np.float32(numperms))
         if j==0:
             minp0=P0s*1.0
         else:
@@ -364,7 +372,7 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
     
     return  pvs
     
-    
+  
 
 def sKPCA_analysis_full_data(image_names,mask,result_dir,vol_batchsize,K_components,ncore):
     
@@ -508,11 +516,11 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize,numperms,
             for j in range(0,int(en1-st1)):   
                 pvs_tmp[j]=PVS[j]              
             pvs[st1:en1]=pvs_tmp 
-        
+            
         end = time.time()
-        
+        print('Number of voxels with p<=0.001 = ',str(np.sum(pvs<=0.001)))
         print('Total run time = ' + str(round(end - start,2))+ ' seconds...')
-                    
+                  
       
     print('Saving result...')
     
