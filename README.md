@@ -52,9 +52,9 @@ Tip: if you want to analyse another variable of interest using the same data, ju
 
 ## **Question or report bug:**
 
-Author: Weikang Gong (FMRIB Analysis group, NDCN, WIN, University of Oxford).
+Author: Weikang Gong
 
-Email: weikang.gong@ndcn.ox.ac.uk; weikanggong@gmail.com.
+Email: weikanggong@gmail.com.
 
 
 You may also find BWAS is useful: https://github.com/weikanggong/BWAS.
