@@ -334,8 +334,7 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
         for j in range(1,numperms):
             yperms[:,j] = pheno[np.random.permutation(N),0]
     else:
-        yperms=pheno
-        pheno=None
+        yperms=pheno*1.0
     
     Tstat2=np.zeros((numperms,P),dtype='float32')
     for j in range(0,numperms):
@@ -346,18 +345,18 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
     pPerm0=np.ones((P,1),dtype='float32')    
     for j in range(0,P):
         #test statistic (1+numperm)*1 vector
-        T0s = np.sum(Tstat2[:,1:j],1)
+        T0s = np.sum(Tstat2[:,0:(j+1)],1)
         #pvalue
-        pPerm0[j]= np.mean(T0s[0]<=T0s[1:(numperms-1)])
+        pPerm0[j]= np.mean(T0s[0]<=T0s[1:numperms])
     
         #get ranks of 
-        ranks=rankdata(T0s[1:(numperms-1)])
+        ranks=rankdata(T0s[1:numperms])
         #get empirical p-value using rank
         P0s = (numperms-ranks + 1 )/(np.float32(numperms))
         if j==0:
-            minp0=P0s
+            minp0=P0s*1.0
         else:
-            minp0[minp0>P0s]=P0s[minp0>P0s]
+            minp0[minp0>P0s]=P0s[minp0>P0s]*1.0
     
     pvs=max(1/np.float32(numperms),(np.sum(minp0<=np.min(pPerm0)))/np.float32(numperms))
 
