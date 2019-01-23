@@ -444,7 +444,7 @@ def sKPCR_fdr_bh(pv,thre_p):
     
     #pv = np.random.uniform(0.0, 1.0, size = (1000,))
 
-    pv=np.sort(pv)
+    pv=np.sort(pv.flatten())
     
     V = len(pv);
     I = np.array(range(1,V+1),dtype='float64')
