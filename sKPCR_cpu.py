@@ -41,6 +41,7 @@ from scipy.spatial.distance import cdist
 from scipy import sparse
 import scipy.sparse.linalg
 from scipy.stats import rankdata
+import scipy
 
 import time
 
@@ -270,8 +271,18 @@ def sKPCR_linear(X,laplacian_mat,K):
     oneN=np.divide(np.ones((n,n)),np.float64(n))
     Kernel=np.divide((Kernel0-np.dot(oneN,Kernel0)-np.dot(Kernel0,oneN)+np.dot(np.dot(oneN,Kernel0),oneN)),np.float64(n))
 
-    D,U=scipy.sparse.linalg.eigs(Kernel,k=K)
-    U=np.array(np.real(U),dtype='float32')
+    #D,U=scipy.sparse.linalg.eigs(Kernel,k=K)
+    #D,U=np.linalg.eig(Kernel)
+    
+    D,U=scipy.linalg.eigh(Kernel,eigvals=(n-K,n-1))
+    D=np.real(D)
+    U=np.real(U)
+    indx1=np.argsort(-D)
+    D=D[indx1]
+    U=U[:,indx1]
+    
+    
+    U=np.array(np.real(U[:,0:K]),dtype='float64')
       
     return U
     
@@ -350,27 +361,29 @@ def sKPCR_adptive_regression(pcs,pheno,cov,numperms):
         Tstat2[j,:]=np.square(BWAS_regression(design,pcs)).flatten()
     
     
-    pPerm0=np.ones((P,1),dtype='float32')    
+    pPerm0=np.ones((P,1),dtype='float32') 
+    T2stats=np.ones((P,),dtype='float32') 
     for j in range(0,P):
         #test statistic (1+numperm)*1 vector
         T0s = np.mean(Tstat2[:,0:(j+1)],1)
+        T2stats[j]=T0s[0]
         #pvalue
         pPerm0[j]= np.mean(T0s[0]<=T0s[1:numperms])
     
         #get ranks of 
         ranks=rankdata(T0s[1:numperms])
         #get empirical p-value using rank
-        P0s = (numperms-ranks)/(np.float32(numperms))
+        P0s = (numperms-ranks)/(np.float32(numperms-1))
         if j==0:
             minp0=P0s*1.0
         else:
             minp0[minp0>P0s]=P0s[minp0>P0s]*1.0
     
-    pvs=max(1/np.float32(numperms),(np.sum(minp0<=np.min(pPerm0)))/np.float32(numperms))
-
+    pvs=max(1/np.float32(numperms),(np.sum(minp0<=np.min(pPerm0)))/np.float32(numperms-1))
+    T2stats_best=T2stats[np.where(np.min(pPerm0)==pPerm0)[0][0]]
     
     
-    return  pvs
+    return  pvs,T2stats_best
     
   
 
@@ -386,6 +399,9 @@ def sKPCA_analysis_full_data(image_names,mask,result_dir,vol_batchsize,K_compone
     laplacian_mat=sparse.csc_matrix(laplacian_mat)
         
     nsub=len(image_names)
+    
+    if K_components>=nsub:
+        K_components=nsub-2
     
     nvol=images[0].shape[1]
         
@@ -494,6 +510,7 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize,numperms,
 
 
     pvs=np.ones((nvol,1))
+    T2stat_best=np.zeros((nvol,1))
     for i in range(0,ind_end):
         start = time.time()
         print('Performing voxel-wise association analysis using adaptive regression... '+
@@ -503,19 +520,23 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize,numperms,
         en1=min(nvol,int((i+1)*vol_batchsize))
         
         pvs_tmp=np.zeros((int(en1-st1),1),dtype='float32')
+        T2stat_tmp=np.zeros((int(en1-st1),1),dtype='float32')
         if ncore==1:
             U=np.load(result_dir+'sKPCA_map'+('%04d' % i)+'.npy')
             for j in range(0,int(en1-st1)):                
-                pvs_tmp[j]=sKPCR_adptive_regression(U[:,:,j],yperms,covariates,numperms) 
-            pvs[st1:en1]=pvs_tmp    
+                pvs_tmp[j],T2stat_tmp[j]=sKPCR_adptive_regression(U[:,:,j],yperms,covariates,numperms) 
+            pvs[st1:en1]=pvs_tmp 
+            T2stat_best[st1:en1]=T2stat_tmp
         else:
             U=np.load(result_dir+'sKPCA_map'+('%04d' % i)+'.npy')
             num_cores = multiprocessing.cpu_count()
             PVS=Parallel(n_jobs=min(num_cores-2,ncore))(delayed(
                     sKPCR_adptive_regression)(U[:,:,j],yperms,covariates,numperms) for j in range(0,int(en1-st1)))
             for j in range(0,int(en1-st1)):   
-                pvs_tmp[j]=PVS[j]              
+                pvs_tmp[j]=PVS[j][0]
+                T2stat_tmp[j]=PVS[j][1]
             pvs[st1:en1]=pvs_tmp 
+            T2stat_best[st1:en1]=T2stat_tmp
             
         end = time.time()
         print('Number of voxels with p<=0.001 = ',str(np.sum(pvs<=0.001)))
@@ -525,36 +546,53 @@ def sKPCR_analysis(result_dir,pheno,covariates,mask_file,vol_batchsize,numperms,
     print('Saving result...')
     
     pval_map=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
+    t2stat_map=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
+
     for j in range(0,nvol):
         pval_map[dim[j,0],dim[j,1],dim[j,2]]=-np.log10(pvs[j])
+        t2stat_map[dim[j,0],dim[j,1],dim[j,2]]=T2stat_best[j]
     
     img = nib.Nifti1Image(pval_map, affine)
     nib.save(img, result_dir+'sKPCR_Pval_map.nii.gz')
-          
+    img = nib.Nifti1Image(t2stat_map, affine)
+    nib.save(img, result_dir+'sKPCR_bestT2stat_map.nii.gz')          
+
 
     thre_p=sKPCR_fdr_bh(pvs,0.05)        
     pvs1=pvs*1.0
     pvs1[pvs1>thre_p]=1
+    T2stat_best1=T2stat_best*1.0
+    T2stat_best1[pvs1>thre_p]=0
     
     pval_map1=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
+    t2stat_map1=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
     for j in range(0,nvol):
         pval_map1[dim[j,0],dim[j,1],dim[j,2]]=-np.log10(pvs1[j])
+        t2stat_map1[dim[j,0],dim[j,1],dim[j,2]]=T2stat_best1[j]
     
     img = nib.Nifti1Image(pval_map1, affine)
     nib.save(img, result_dir+'sKPCR_Pval_map_FDR0.05.nii.gz')
+    img = nib.Nifti1Image(t2stat_map1, affine)
+    nib.save(img, result_dir+'sKPCR_bestT2stat_map_FDR0.05.nii.gz')
 
 
     thre_p=sKPCR_fdr_bh(pvs,0.01)        
     pvs2=pvs*1.0
     pvs2[pvs2>thre_p]=1
+    T2stat_best2=T2stat_best*1.0
+    T2stat_best2[pvs2>thre_p]=0
           
     pval_map2=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
+    t2stat_map2=np.zeros((mask.shape[0],mask.shape[1],mask.shape[2]))
     for j in range(0,nvol):
         pval_map2[dim[j,0],dim[j,1],dim[j,2]]=-np.log10(pvs2[j])
+        t2stat_map2[dim[j,0],dim[j,1],dim[j,2]]=T2stat_best2[j]
     
     img = nib.Nifti1Image(pval_map2, affine)
     nib.save(img, result_dir+'sKPCR_Pval_map_FDR0.01.nii.gz')
-                     
+    img = nib.Nifti1Image(t2stat_map2, affine)
+    nib.save(img, result_dir+'sKPCR_bestT2stat_map_FDR0.01.nii.gz')
+              
     
     print('All analysis finished!')    
     
